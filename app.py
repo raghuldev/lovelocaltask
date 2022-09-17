@@ -1,4 +1,3 @@
-#from crypt import methods
 from urllib import request
 from flask import Flask, request, jsonify
 from loveLocal import loveLocal
@@ -14,11 +13,7 @@ def home():
 @app.route("/saveCustData")
 def saveCustData():
     ll.sendDataToDB()
-    return "Sucess"
-
-@app.route("/submit")
-def submit():
-    return "Hello from submit page"
+    return "Sucessfully saved to DB"
 
 @app.route("/fetchOrderId", methods=["GET"])
 def fetchOrderId():
@@ -33,8 +28,8 @@ def fetchOrderId():
 
 @app.route("/fetchAvgNoProds", methods=["GET"])
 def fetchAvgNoProds():
-    return str(ll.fetchAvgNoProds())
-    #return "AVG >>>"
+    res = {"AvgNoProds": ll.fetchAvgNoProds()}
+    return json.dumps(res)
 
 @app.route("/fetchProdAvg", methods=["GET"])
 def fetchProdAvg():

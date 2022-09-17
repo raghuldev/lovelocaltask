@@ -1,3 +1,4 @@
+from enum import unique
 import urllib.request
 import json
 from loveLocalDb import localLocalDB
@@ -18,9 +19,7 @@ class loveLocal:
         rawData = self.fetchRawData()
         orderCount = rawData['count']
         orderData = rawData['data']
-        print("DATA TO DB")
         self.lovedb.saveOrders(orderData)
-        print(self.lovedb.getAllOrders())
     
     def fetchOrderData(self, orderId):
         return self.lovedb.getOrderByID(orderId)
@@ -32,6 +31,9 @@ class loveLocal:
         return loveUtils.findMedian(productCounts)
     
     def fetchAvgQnProd(self, prodId):
-        return self.lovedb.getProdQuantAllOrders(prodId)
+        res = self.lovedb.getProdQuantAllOrders(prodId)
+        res[0]['avg'] = loveUtils.findMedian(res[0]['avg'])
+        print(f"Debug Log Avg Quantity Product : {res}")
+        return res
         
 

@@ -57,13 +57,10 @@ class localLocalDB:
             return prodCounts
         for i in res:
             prodCounts.append(i['product_count'])
-            #print(f" DB >>>> {i}")
         return prodCounts
     
     def getProdQuantAllOrders(self, prodId):
-        #query = self.loveLocalOrdersCollection.aggregate([ 
-        #    { $unwind: "$products" }, { $match: { "products.id": prodId } }, { $group: { _id: "$products.id", values: { $push: "$products.quantity" }, avg: { $avg: "$products.quantity" }, name: { $first: "$$ROOT.products.name" }, measurement: { $first: "$$ROOT.products.measurement" }, productId: { $first: "$$ROOT.products.id" } } }])
-        res = self.loveLocalOrdersCollection.aggregate([ { "$unwind": "$products" }, { "$match": { "products.id": prodId } }, { "$group": { "_id": "$products.id", "avg": { "$avg": "$products.quantity" }, "name": { "$first": "$$ROOT.products.name" }, "measurement": { "$first": "$$ROOT.products.measurement" }, "productId": { "$first": "$$ROOT.products.id" } } }])
+        #res = self.loveLocalOrdersCollection.aggregate([ { "$unwind": "$products" }, { "$match": { "products.id": prodId } }, { "$group": { "_id": "$products.id", "avg": { "$avg": "$products.quantity" }, "name": { "$first": "$$ROOT.products.name" }, "measurement": { "$first": "$$ROOT.products.measurement" }, "productId": { "$first": "$$ROOT.products.id" } } }])
+        res = self.loveLocalOrdersCollection.aggregate([ { "$unwind": "$products" }, { "$match": { "products.id": prodId } }, { "$group": { "_id": "$products.id", "avg": { "$push": "$products.quantity" }, "name": { "$first": "$$ROOT.products.name" }, "measurement": { "$first": "$$ROOT.products.measurement" }, "productId": { "$first": "$$ROOT.products.id" } } }])
         res = list(res)
-        print(f"DDDD >>>> {res}")
         return res
