@@ -1,5 +1,5 @@
 Flask==2.2.2
-urllib==3.7
+urllib.request==3.7
 pymongo==4.2.0
 gunicorn==19.9.0
 #itsdangerous==1.1.0
